@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 // Definimos la URL base de la API
-const API_URL = 'http://localhost:4000/api/funkos'
+const API_URL = `${import.meta.env.VITE_API_URL}/api/funkos`
 
 /* Obtener todos los Funkos desde la API */
 export const getFunkos = async () => {

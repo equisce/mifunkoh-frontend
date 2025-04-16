@@ -22,7 +22,7 @@ function Contacto() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post('http://localhost:4000/api/mensajes', formulario) // aquí se envía el mensaje al backend
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/mensajes`, formulario) // aquí se envía el mensaje al backend
       setShowToast(true)
       setFormulario({ nombre: '', email: '', mensaje: '' }) // reseteamos el formulario tras el envío
     } catch (error) {
