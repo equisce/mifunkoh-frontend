@@ -1,11 +1,19 @@
 import { useCarrito } from '../context/CarritoContext'
 import { useUser } from '../context/UseContext'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import '../styles.css'
 
 function Header() {
   const { cantidad } = useCarrito()
   const { usuario, logout } = useUser()
+
+  // Estado para mostrar/ocultar el menú en móvil
+  const [menuAbierto, setMenuAbierto] = useState(false)
+
+  const toggleMenu = () => {
+    setMenuAbierto(!menuAbierto)
+  }
 
   return (
     <header>
@@ -47,12 +55,17 @@ function Header() {
 
       <div className="container-navbar">
         <nav className="navbar container">
-          <i className="fa-solid fa-bars"></i>
-          <ul className="menu">
-            <li><Link to="/">Inicio</Link></li>
-            <li><Link to="/catalogo">Catálogo</Link></li>
-            <li><Link to="/blog">Blog</Link></li>
-            <li><Link to="/contacto">Contacto</Link></li>
+          {/* Botón hamburguesa solo visible en móvil */}
+          <div className="hamburguesa" onClick={toggleMenu}>
+            ☰
+          </div>
+
+          {/* Menú: visible solo si está abierto en móvil */}
+          <ul className={`menu ${menuAbierto ? 'show' : ''}`}>
+            <li><Link to="/" onClick={() => setMenuAbierto(false)}>Inicio</Link></li>
+            <li><Link to="/catalogo" onClick={() => setMenuAbierto(false)}>Catálogo</Link></li>
+            <li><Link to="/blog" onClick={() => setMenuAbierto(false)}>Blog</Link></li>
+            <li><Link to="/contacto" onClick={() => setMenuAbierto(false)}>Contacto</Link></li>
           </ul>
 
           <form className="search-container">
