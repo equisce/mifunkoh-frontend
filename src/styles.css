@@ -1777,6 +1777,41 @@ html {
   }
 }
 
+/* Menu hamburguesa base (estructural) */
+@media (max-width: 768px) {
+  .nav {
+    position: relative;
+  }
+
+  .hamburguesa {
+    display: block;
+    cursor: pointer;
+    font-size: 2.5rem;
+    margin: 1rem;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 4.5rem;
+    right: 1rem;
+    background-color: var(--main-color);
+    border-radius: 1rem;
+    box-shadow: var(--bs);
+    padding: 1rem;
+    z-index: 999;
+  }
+
+  nav ul li {
+    margin-bottom: 1rem;
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+}
+
 /* ---------------------------------------------
    SLIDER RESPONSIVE
 --------------------------------------------- */
@@ -1991,7 +2026,12 @@ html {
     margin-top: 1rem;
     font-size: 1.3rem;
   }
+
+  .container-blogs .card-blog:nth-child(n+2) {
+    display: none;
+  }
 }
+
 
 /* ---------------------------------------------
    FOOTER RESPONSIVE
@@ -2461,7 +2501,23 @@ html {
   form.formulario-contacto .campo {
     width: 100%;
   }
+
+  .formulario-contacto {
+    flex-direction: column;
+  }
+
+  .formulario-contacto .campo {
+    width: 100%;
+    display: block;
+  }
+
+  .formulario-contacto input,
+  .formulario-contacto textarea {
+    width: 100%;
+    display: block;
+  }
 }
+
 
 
 
