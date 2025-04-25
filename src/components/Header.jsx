@@ -66,7 +66,15 @@ function Header() {
             <li><Link to="/catalogo" onClick={() => setMenuAbierto(false)}>Catálogo</Link></li>
             <li><Link to="/blog" onClick={() => setMenuAbierto(false)}>Blog</Link></li>
             <li><Link to="/contacto" onClick={() => setMenuAbierto(false)}>Contacto</Link></li>
+
+          {/* Mostrar enlace a admin solo si hay usuario */}
+            {usuario && (
+              <li>
+                <Link to="/admin" onClick={() => setMenuAbierto(false)}>Admin</Link>
+              </li>
+            )}
           </ul>
+
 
           <form className="search-container">
             <input type="search" placeholder="Buscar..." />

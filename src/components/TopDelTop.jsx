@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react'
-import { getFunkos } from '../services/funkosService'
-import { Link } from 'react-router-dom'
-import '../styles.css'
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import '../styles.css';
 
 function TopDelTop() {
-  const [funkos, setFunkos] = useState([])
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todos')
+  const [funkos, setFunkos] = useState([]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todos');
 
   useEffect(() => {
     const cargarFunkos = async () => {
-      const data = await getFunkos()
-      setFunkos(data)
-    }
-    cargarFunkos()
-  }, [])
+      const res = await fetch('http://localhost:4000/api/funkos');
+      const data = await res.json();
+      setFunkos(data);
+    };
+    cargarFunkos();
+  }, []);
 
-  const categorias = ['Todos', 'Películas', 'Animación', 'Juegos', 'Series']
+  const categorias = ['Todos', 'Películas', 'Animación', 'Juegos', 'Series'];
 
   const funkosFiltrados = categoriaSeleccionada === 'Todos'
     ? funkos
-    : funkos.filter(funko =>
-        funko.categoria?.some(
-          cat => cat.toLowerCase() === categoriaSeleccionada.toLowerCase()
+    : Array.isArray(funkos)
+      ? funkos.filter(funko =>
+          funko.categoria?.some(cat => cat.toLowerCase() === categoriaSeleccionada.toLowerCase())
         )
-      )
+      : [];
 
   return (
     <section className="top-del-top">
@@ -44,7 +44,7 @@ function TopDelTop() {
       </div>
 
       <div className="funkos-top-grid">
-        {funkosFiltrados.length > 0 ? (
+        {Array.isArray(funkosFiltrados) && funkosFiltrados.length > 0 ? (
           funkosFiltrados.map(funko => (
             <div key={funko._id} className="funko-top-card">
               <img src={funko.imagen} alt={funko.nombre} />
@@ -60,7 +60,7 @@ function TopDelTop() {
         )}
       </div>
     </section>
-  )
+  );
 }
 
-export default TopDelTop
+export default TopDelTop;

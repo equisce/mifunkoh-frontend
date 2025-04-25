@@ -20,8 +20,10 @@ function Producto() {
   const { actualizarCantidad } = useCarrito()
 
   useEffect(() => {
-    const fetchFunko = async () => { // traer todos los funkos para encontrar el individual y luego generar recomendaciones
+    const fetchFunko = async () => {
       try {
+        console.log("\ud83d\udd0d ID recibido desde useParams:", id)
+
         const todos = await getFunkos()
         const producto = todos.find(f => String(f._id) === String(id))
         if (!producto) {
@@ -46,7 +48,7 @@ function Producto() {
     setValoracion(estrella)
   }
 
-  const agregarAlCarrito = () => {   // guardamos en localStorage y mostramos el toast
+  const agregarAlCarrito = () => {
     const carritoGuardado = JSON.parse(localStorage.getItem('carrito')) || []
     const existe = carritoGuardado.find(f => f._id === funko._id)
 
@@ -83,7 +85,7 @@ function Producto() {
                 onClick={() => manejarValoracion(estrella)}
               ></i>
             ))}
-            {valoracion > 0 && ( // se muestra solo si el usuario puntúa
+            {valoracion > 0 && (
               <span className="texto-valoracion">Has puntuado con {valoracion} estrella{valoracion > 1 ? 's' : ''}.</span>
             )}  
           </div>

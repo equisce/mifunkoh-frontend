@@ -127,9 +127,17 @@ html {
 }
 
 .menu {
-  display: flex;
-  gap: 2rem;
+  display: none;
+  flex-direction: column;
+  background-color: var(--primary-color);
+  width: 100%;
+  padding: 1rem;
 }
+
+.menu.show {
+  display: flex;
+}
+
 
 .menu li {
   list-style: none;
@@ -1688,6 +1696,150 @@ html {
   font-size: 1.4rem;
 }
 
+/* ADMIN PAGE */
+
+.admin-page {
+  padding: 2rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+}
+
+.admin-table img {
+  border-radius: 0.5rem;
+}
+
+.btn-delete {
+  background-color: crimson;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* MENSAJE DE ELIMINAR PRODUCTO EN ADMIN + MODAL DE CONFIRMACIÓN */
+
+.alerta-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.modal-confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+  font-size: 1.4rem;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.btn-cancelar {
+  background-color: #ccc;
+  color: #333;
+  padding: 0.7rem 1.4rem;
+  border-radius: 2rem;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-cancelar:hover {
+  background-color: #bbb;
+}
+
+.btn-confirmar {
+  background-color: #47aeb6;
+  color: white;
+  padding: 0.7rem 1.4rem;
+  border-radius: 2rem;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-confirmar:hover {
+  background-color: #c9302c;
+}
+
+/* FORMULARIO PARA CREAR NUEVOS FUNKOS EN ADMIN + EDITAR */
+
+.form-admin {
+  display: grid;
+  gap: 1rem;
+  max-width: 600px;
+  margin-bottom: 3rem;
+}
+
+.form-admin input,
+.form-admin textarea {
+  padding: 0.8rem;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.form-admin textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.btn-crear {
+  background-color: #37b4b2;
+  color: white;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  font-size: 1.4rem;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.btn-crear:hover {
+  background-color: #2aa1a0;
+}
+
+
+
 /* RESPONSIVE */
 
 /* ---------------------------------------------
@@ -1707,8 +1859,7 @@ html {
   }
 
   .customer-support {
-    flex-direction: column;
-    gap: 0.5rem;
+    display: none;
   }
 
   .customer-support i {
@@ -1747,97 +1898,69 @@ html {
   }
 }
 
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .container-loguito,
-  .container-user {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    padding: 0;
-    margin: 1rem 0;
-    list-style: none;
-  }
-
-  nav ul li {
-    font-size: 1.4rem;
-    white-space: nowrap;
-  }
+/* HAMBURGUESA Y MENU RESPONSIVE */
+.hamburguesa {
+  display: none;
 }
 
-/* Menu hamburguesa base (estructural) */
 @media (max-width: 768px) {
-  .nav {
+  .hamburguesa {
+    display: block;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    background-color: var(--primary-color);
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .menu.show {
+    display: flex;
+  }
+
+  .container-navbar {
+    z-index: 1001;
     position: relative;
   }
 
-  .hamburguesa {
-    display: block;
-    cursor: pointer;
-    font-size: 2.5rem;
-    margin: 1rem;
-  }
-
-  nav ul {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 4.5rem;
-    right: 1rem;
-    background-color: var(--main-color);
-    border-radius: 1rem;
-    box-shadow: var(--bs);
-    padding: 1rem;
-    z-index: 999;
-  }
-
-  nav ul li {
-    margin-bottom: 1rem;
-  }
-
-  nav ul.show {
-    display: flex;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    gap: 1.5rem;
-    background-color: var(--primary-color);
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    padding: 2rem;
-    z-index: 999;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-    background: none;
-    border: none;
-    font-size: 2.4rem;
-    margin-left: 1rem;
-    cursor: pointer;
-    z-index: 1000;
+  .navbar {
+    z-index: 100;
+    position: relative;
   }
 }
+
+/* Mostrar menú en escritorio */
+@media (min-width: 769px) {
+  .menu {
+    display: flex !important;
+    flex-direction: row;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .hamburguesa {
+    display: none;
+  }
+}
+
+/* nav bar que no existe pero me crea espacios raros*/
+
+@media (max-width: 768px) {
+  .container-navbar {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .navbar {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
 
 /* ---------------------------------------------
    SLIDER RESPONSIVE
@@ -1845,15 +1968,24 @@ html {
 
 @media (max-width: 768px) {
   .slider-container {
-    overflow: hidden;
     width: 100%;
-    margin-bottom: 0rem;
+    height: 45vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
   }
+
+  .slider {
+    display: flex;
+    height: 100%;
+  }
+  
 
   .slide {
     position: relative;
-    min-width: 100%;
-    height: 45vh;
+    flex: 0 0 100%;
+    height: 100%;
   }
 
   .slide-image {
@@ -1865,14 +1997,15 @@ html {
   .content-carousel {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 10%;
+    transform: translateY(-50%);
     color: white;
-    text-align: center;
-    width: 90%;
+    text-align: left;
+    width: 80%;
     padding: 1rem;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 1rem;
+    margin-bottom: 0;
   }
 
   .content-carousel p {
@@ -1890,6 +2023,29 @@ html {
     font-size: 1.4rem;
     padding: 0.8rem 1.6rem;
   }
+
+  .prev,
+  .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 3;
+  }
+
+  .prev {
+    left: 1rem;
+  }
+
+  .next {
+    right: 1rem;
+  }
 }
 
 /* ---------------------------------------------
@@ -1898,7 +2054,7 @@ html {
 
 @media (max-width: 768px) {
   .top-del-top {
-    padding: 2rem 1rem;
+    padding-top:  1rem;
     margin-top: 0rem;
   }
 
@@ -1950,29 +2106,9 @@ html {
 /* ---------------------------------------------
    MOSAICO RESPONSIVE
 --------------------------------------------- */
-
 @media (max-width: 768px) {
   .mosaico {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-  }
-
-  .mosaico-item {
-    height: 120px;
-    overflow: hidden;
-  }
-
-  .mosaico-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-@media (max-width: 480px) {
-  .mosaico {
-    grid-template-columns: 1fr;
+    display: none ;
   }
 }
 
@@ -2471,88 +2607,32 @@ html {
 
 @media (max-width: 768px) {
   .contacto-container {
-    padding: 2rem 1rem;
-  }
-
-  .info-contacto {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .info-contacto .heading-one {
-    font-size: 2.4rem;
-    margin-bottom: 1rem;
-  }
-
-  .info-contacto p {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-  }
-
-  .info-contacto ul {
-    list-style: none;
-    padding: 0;
-    font-size: 1.4rem;
-  }
-
-  .info-contacto ul li {
-    margin-bottom: 0.8rem;
-  }
-
-  .info-contacto i {
-    margin-right: 0.5rem;
-  }
-
-  form.formulario-contacto {
-    flex-direction: column;
-  }
-
-  form.formulario-contacto input,
-  form.formulario-contacto textarea {
-    font-size: 1.4rem;
-    padding: 0.8rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--gray-color);
-    width: 100%;
-  }
-
-  form.formulario-contacto textarea {
-    resize: vertical;
-    min-height: 120px;
-  }
-
-  form.formulario-contacto button {
-    font-size: 1.4rem;
     padding: 1rem;
-    width: 100%;
-  }
-
-  form.formulario-contacto .campo {
-    width: 100%;
+    overflow-x: hidden;
   }
 
   .formulario-contacto {
-    display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
-  .formulario-contacto .campo {
+  .form-group {
     width: 100%;
   }
 
   .formulario-contacto input,
   .formulario-contacto textarea {
     width: 100%;
+    box-sizing: border-box;
     font-size: 1.4rem;
-    padding: 0.8rem 1.2rem
+  }
+
+  .formulario-contacto button {
+    width: 100%;
+    font-size: 1.6rem;
+    padding: 1rem;
   }
 }
-
-
-
-
-
 
 
 

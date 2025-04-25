@@ -11,6 +11,7 @@ import Carrito from './pages/Carrito'
 import Producto from './pages/Producto'
 import Confirmacion from './pages/Confirmacion'
 import NotFound from './pages/NotFound'
+import Admin from './pages/Admin'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="carrito" element={<ProtectedRoute><Carrito /></ProtectedRoute>} />
         <Route path="confirmacion" element={<ProtectedRoute><Confirmacion /></ProtectedRoute>} />
         <Route path="producto/:id" element={<ProtectedRoute><Producto /></ProtectedRoute>} />
+        <Route path="admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
 
         <Route path="*" element={<NotFound />} />
       </Route>
