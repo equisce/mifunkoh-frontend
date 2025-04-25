@@ -2,6 +2,8 @@ import { createContext, useState, useContext, useEffect } from 'react';
 
 const UserContext = createContext();
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function UserProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
 
@@ -16,18 +18,19 @@ export function UserProvider({ children }) {
   // Login real conectado con el backend
   const login = async (email, password) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/login`, {
+      const res = await fetch(`${API_URL}/api/usuarios/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      
 
       const data = await res.json();
 
-      if (!res.ok) return false;
+      if (!res.ok) {
+        console.error('Credenciales inválidas:', data?.mensaje);
+        return false;
+      }
 
-      // Guardamos usuario y token en localStorage
       localStorage.setItem('usuario', JSON.stringify(data.usuario));
       localStorage.setItem('token', data.token);
       setUsuario(data.usuario);

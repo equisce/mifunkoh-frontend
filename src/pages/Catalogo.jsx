@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Catalogo() {
   const [funkos, setFunkos] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todos');
@@ -9,9 +11,13 @@ function Catalogo() {
 
   useEffect(() => {
     const cargarFunkos = async () => {
-      const res = await fetch('http://localhost:4000/api/funkos');
-      const data = await res.json();
-      setFunkos(data);
+      try {
+        const res = await fetch(`${API_URL}/api/funkos`);
+        const data = await res.json();
+        setFunkos(data);
+      } catch (error) {
+        console.error('Error al cargar funkos:', error);
+      }
     };
     cargarFunkos();
   }, []);

@@ -2,19 +2,25 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function RinconDelColeccionista() {
   const [funkos, setFunkos] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('http://localhost:4000/api/funkos');
-      const allFunkos = await res.json();
-      const coleccionista = Array.isArray(allFunkos)
-        ? allFunkos.filter(funko =>
-            Array.isArray(funko.categoria) && funko.categoria.includes('coleccionista')
-          )
-        : [];
-      setFunkos(coleccionista);
+      try {
+        const res = await fetch(`${API_URL}/api/funkos`);
+        const allFunkos = await res.json();
+        const coleccionista = Array.isArray(allFunkos)
+          ? allFunkos.filter(funko =>
+              Array.isArray(funko.categoria) && funko.categoria.includes('coleccionista')
+            )
+          : [];
+        setFunkos(coleccionista);
+      } catch (error) {
+        console.error("Error al obtener Funkos del coleccionista:", error);
+      }
     };
     fetchData();
   }, []);

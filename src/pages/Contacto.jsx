@@ -1,138 +1,92 @@
-import { useEffect, useState } from 'react';
-import '../styles.css';
+import { useState } from 'react'
+import axios from 'axios'
+import '../styles.css'
+import Toast from '../components/Toast'
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-function Admin() {
-  const [funkos, setFunkos] = useState([]);
-  const [mensaje, setMensaje] = useState('');
-  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
-  const [funkoAEliminar, setFunkoAEliminar] = useState(null);
-  const [funkoAEditar, setFunkoAEditar] = useState(null);
-  const [modalEdicionAbierto, setModalEdicionAbierto] = useState(false);
-
-  const [nuevo, setNuevo] = useState({
+function Contacto() {
+  const [formulario, setFormulario] = useState({
     nombre: '',
-    precio: '',
-    imagen: '',
-    categoria: '',
-    descripcion: ''
-  });
+    email: '',
+    mensaje: ''
+  })
+
+  const [showToast, setShowToast] = useState(false) // control de visibilidad del mensaje de éxito
 
   const handleChange = (e) => {
-    setNuevo({ ...nuevo, [e.target.name]: e.target.value });
-  };
+    setFormulario({
+      ...formulario,
+      [e.target.name]: e.target.value
+    })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const funkoNuevo = {
-      ...nuevo,
-      categoria: nuevo.categoria.split(',').map(cat => cat.trim())
-    };
-
+    e.preventDefault()
     try {
-      const res = await fetch(`${API_URL}/api/funkos`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(funkoNuevo)
-      });
-
-      if (!res.ok) throw new Error('Error al crear el Funko');
-
-      setNuevo({ nombre: '', precio: '', imagen: '', categoria: '', descripcion: '' });
-      cargarFunkos();
-      setMensaje('Funko creado correctamente');
-      setTimeout(() => setMensaje(''), 3000);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/mensajes`, formulario) // aquí se envía el mensaje al backend
+      setShowToast(true)
+      setFormulario({ nombre: '', email: '', mensaje: '' }) // reseteamos el formulario tras el envío
     } catch (error) {
-      alert('Error al crear el Funko');
-      console.error(error);
+      console.error('Error al enviar el mensaje:', error)
     }
-  };
-
-  const cargarFunkos = async () => {
-    const res = await fetch(`${API_URL}/api/funkos`);
-    const data = await res.json();
-    setFunkos(data);
-  };
-
-  useEffect(() => {
-    cargarFunkos();
-  }, []);
-
-  const confirmarEliminacion = (id) => {
-    setFunkoAEliminar(id);
-    setMostrarConfirmacion(true);
-  };
-
-  const cancelarEliminacion = () => {
-    setMostrarConfirmacion(false);
-    setFunkoAEliminar(null);
-  };
-
-  const eliminarFunko = async () => {
-    if (!funkoAEliminar) return;
-    try {
-      const res = await fetch(`${API_URL}/api/funkos/${funkoAEliminar}`, {
-        method: 'DELETE'
-      });
-      if (!res.ok) throw new Error('Falló el borrado');
-      setFunkos(prev => prev.filter(f => f._id !== funkoAEliminar));
-      setMensaje('Funko eliminado correctamente');
-      setTimeout(() => setMensaje(''), 3000);
-    } catch (error) {
-      alert('Error al eliminar el Funko');
-      console.error(error);
-    } finally {
-      cancelarEliminacion();
-    }
-  };
-
-  const abrirEdicion = (funko) => {
-    setFunkoAEditar(funko);
-    setModalEdicionAbierto(true);
-  };
-
-  const handleEditarChange = (e) => {
-    setFunkoAEditar({ ...funkoAEditar, [e.target.name]: e.target.value });
-  };
-
-  const guardarEdicion = async (e) => {
-    e.preventDefault();
-
-    const actualizado = {
-      ...funkoAEditar,
-      categoria: typeof funkoAEditar.categoria === 'string'
-        ? funkoAEditar.categoria.split(',').map(c => c.trim())
-        : funkoAEditar.categoria
-    };
-
-    try {
-      const res = await fetch(`${API_URL}/api/funkos/${actualizado._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(actualizado)
-      });
-
-      if (!res.ok) throw new Error('Error al editar');
-
-      setModalEdicionAbierto(false);
-      setFunkoAEditar(null);
-      cargarFunkos();
-      setMensaje('Funko editado correctamente');
-      setTimeout(() => setMensaje(''), 3000);
-    } catch (error) {
-      alert('Error al editar el Funko');
-      console.error(error);
-    }
-  };
+  }
 
   return (
-    <section className="admin-page">
-      {/* tu mismo código visual sin cambios */}
-      ...
-    </section>
-  );
+    <main className="contacto-container">
+      <Toast mensaje="¡Has enviado tu mensaje!" visible={showToast} setVisible={setShowToast} />
+
+      <section className="info-contacto">
+        <h1 className="heading-one">¿Tienes dudas o sugerencias?</h1>
+        <p>Estamos aquí para ayudarte. Completa el siguiente formulario o contáctanos directamente.</p>
+        <ul>
+          <li><i className="fa-solid fa-phone"></i> Teléfono: 954 99 15 58</li>
+          <li><i className="fa-solid fa-envelope"></i> Email: info@mifunkoh.com</li>
+          <li><i className="fa-solid fa-location-dot"></i> Dirección: C/ Conde de Cifuentes, Sevilla</li>
+        </ul>
+      </section>
+
+      <section className="formulario-contacto">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="nombre">Nombre:</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              value={formulario.nombre}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formulario.email}
+              onChange={handleChange}
+              required></input>
+          </div>
+
+          <div className="form-group full-width">
+            <label htmlFor="mensaje">Mensaje:</label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              rows="5"
+              value={formulario.mensaje}
+              onChange={handleChange}
+              required></textarea>
+          </div>
+
+          <div className="form-group full-width">
+            <button type="submit" className="btn-enviar">Enviar mensaje</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  )
 }
 
-export default Admin;
+export default Contacto
