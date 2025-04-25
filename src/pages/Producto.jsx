@@ -49,19 +49,22 @@ function Producto() {
   }
 
   const agregarAlCarrito = () => {
-    const carritoGuardado = JSON.parse(localStorage.getItem('carrito')) || []
-    const existe = carritoGuardado.find(f => f._id === funko._id)
-
+    const carritoGuardado = JSON.parse(localStorage.getItem('carrito')) || [];
+    const existe = carritoGuardado.find(f => f._id === funko._id);
+  
     const actualizado = existe
       ? carritoGuardado.map(f => f._id === funko._id ? { ...f, cantidad: f.cantidad + 1 } : f)
-      : [...carritoGuardado, { ...funko, cantidad: 1 }]
-
-    localStorage.setItem('carrito', JSON.stringify(actualizado))
-    actualizarCantidad()
-
-    setToastMensaje('¡Producto añadido al carrito!')
-    setToastVisible(true)
+      : [...carritoGuardado, { ...funko, cantidad: 1 }];
+  
+    localStorage.setItem('carrito', JSON.stringify(actualizado));
+  
+    //Muy importante: actualizar el contexto para refrescar el número
+    actualizarCantidad();
+  
+    setToastMensaje('¡Producto añadido al carrito!');
+    setToastVisible(true);
   }
+  
 
   if (!funko || !funko._id) {
     return <p style={{ textAlign: 'center' }}>Cargando producto o no encontrado...</p>
