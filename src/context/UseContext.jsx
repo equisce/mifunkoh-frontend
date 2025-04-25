@@ -16,11 +16,12 @@ export function UserProvider({ children }) {
   // Login real conectado con el backend
   const login = async (email, password) => {
     try {
-      const res = await fetch('http://localhost:4000/api/usuarios/login', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
+      
 
       const data = await res.json();
 
