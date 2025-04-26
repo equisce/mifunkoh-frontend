@@ -8,11 +8,14 @@ function Carrito() {
   const [total, setTotal] = useState(0)
   const { actualizarCantidad: actualizarCantidadGlobal } = useCarrito()
 
+  // ✅ Recargar carrito desde localStorage al inicio
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('carrito')) || []
     setCarrito(stored)
-  }, [])  
+    actualizarCantidadGlobal()
+  }, [])
 
+  // ✅ Recalcular el total cuando cambia el carrito
   useEffect(() => {
     const totalCalculado = carrito.reduce(
       (acc, f) => acc + f.precio * f.cantidad,
@@ -27,7 +30,7 @@ function Carrito() {
     )
     setCarrito(actualizado)
     localStorage.setItem('carrito', JSON.stringify(actualizado))
-    actualizarCantidadGlobal() // actualiza el carrito del header
+    actualizarCantidadGlobal()
   }
 
   const eliminarProducto = (id) => {
@@ -44,7 +47,7 @@ function Carrito() {
 
     setCarrito(actualizado)
     localStorage.setItem('carrito', JSON.stringify(actualizado))
-    actualizarCantidadGlobal() // actualiza el carrito del header
+    actualizarCantidadGlobal()
   }
 
   const handleFinalizarPedido = () => {
@@ -54,7 +57,7 @@ function Carrito() {
     }
 
     localStorage.setItem('pedidoConfirmado', JSON.stringify(pedidoConfirmado))
-    console.log("Pedido guardado en localStorage:", pedidoConfirmado)
+    console.log("✅ Pedido guardado:", pedidoConfirmado)
   }
 
   return (
@@ -76,9 +79,7 @@ function Carrito() {
           <tbody>
             {carrito.map((item) => (
               <tr key={item._id}>
-                <td>
-                  <img src={item.imagen} alt={item.nombre} />
-                </td>
+                <td><img src={item.imagen} alt={item.nombre} /></td>
                 <td>{item.nombre}</td>
                 <td>{Number(item.precio).toFixed(2)}€</td>
                 <td>
